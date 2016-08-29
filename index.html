@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Panda Game</title>
+    <script src="jquery-3.1.0.js" type="text/javascript"></script>
+    <script src="keyboard.js" type="text/javascript"></script>
+    <script src="utility.js" type="text/javascript"></script>
+    <script src="canvas.js" type="text/javascript"></script>
+    <script src="animate.js" type="text/javascript"></script>
+    <script src="spritesheet.js" type="text/javascript"></script>
+    <script src="sprite.js" type="text/javascript"></script>
+    <script src="world.js" type="text/javascript"></script>
+    //<script src="point.js" type="text/javascript"></script>
+    //<script src="segment.js" type="text/javascript"></script>
+    //<script src="collision.js" type="text/javascript"></script>
+    //<script src="vector.js" type="text/javascript"></script>
+
+
+
+    <script language="JavaScript">
+
+        var Context = null;
+        var BLOCK_W = 64;
+        var BLOCK_H = 64;
+
+        var panda_x = 63;
+        var panda_y = 750;
+        var panda_moving = false;
+
+
+        var spritesheet = new Spritesheet("images/pandaSpriteSheetTester.png");
+        var ground = new Sprite(spritesheet);
+        var grass = new Sprite(spritesheet);
+        var mushroom = new Sprite(spritesheet);
+        var spikes = new Sprite(spritesheet);
+        // Load the sprite sheet
+        //var panda = new Sprite("images/pandaSprite1.png");
+
+
+        var panda1 = new Sprite(spritesheet);
+
+        // Array to generate canvas elements map. Displayed dynamically on load
+        var map = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                   0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0,
+                   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1,
+                   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+
+        ];
+
+        var mapIndex = 0;
+
+
+        $(document).ready(function () {
+
+            Context = new HTML("game", 1660, 830);
+
+            window.gfx = Context.context;
+
+
+            InitializeKeyboard();
+
+            DisableScrollbars();
+
+            InitializeAnimationCounters();
+
+        });
+
+        $(window).on('load', function () {
+
+        });
+
+        setInterval(function () {
+
+            ResetAnimationCounter();
+
+            DrawMap();
+
+            panda_moving = false;
+
+            // Movement is done by pressing the arrow keys
+            if(key.rightArrow) { panda_x += 5; panda_moving = true; }
+            if(key.leftArrow) { panda_x -= 5; panda_moving = true; }
+
+            // Amimated Panda
+            if(panda_moving){
+                panda1.draw(panda_x, panda_y, [9, 10, 11, 12, 13]);
+            } else {
+                panda1.draw(panda_x, panda_y, 0);
+            }
+
+
+        }, 30);
+    </script>
+</head>
+<body>
+
+    <canvas id="game"></canvas>
+
+</body>
+</html>
